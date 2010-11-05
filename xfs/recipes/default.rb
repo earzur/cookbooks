@@ -16,7 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-%w{ xfsprogs xfsdump xfslibs-dev }.each do |pkg|
-  package pkg
+case node.platform
+when "ubuntu","debian"
+  %w{ xfsprogs xfsdump xfslibs-dev }.each do |pkg|
+    package pkg
+  end
+when "centos", "fedora"
+  %w{ xfsprogs xfsdump xfsprogs-devel }.each do |pkg|
+    package pkg
+  end
 end
