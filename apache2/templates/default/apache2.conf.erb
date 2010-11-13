@@ -154,6 +154,17 @@ Include <%= node[:apache][:dir] %>/ports.conf
 # a CustomLog directive (see below).
 #
 LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+
+# the two following directives will help us detect if we are behind a forward proxy
+# 
+# CustomLog logs/access_log combined env=!is-forwarded
+# CustomLog logs/access_log forwarded env=is-forwarded
+# 
+# in the VirtualHosts will get the proper IP logged
+
+LogFormat "%{X-Forwarder-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" forwarded
+SetEnvIf X-Forwarder-For "^.*\..*\..*\..*" is-forwarded
+
 LogFormat "%h %l %u %t \"%r\" %>s %b" common
 LogFormat "%{Referer}i -> %U" referer
 LogFormat "%{User-agent}i" agent
