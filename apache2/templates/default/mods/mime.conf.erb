@@ -18,15 +18,15 @@ TypesConfig /etc/mime.types
 # nothing to do with the FancyIndexing customization directives above.
 #
 #AddEncoding x-compress .Z
-#AddEncoding x-gzip .gz .tgz
-#AddEncoding x-bzip2 .bz2
+AddEncoding x-gzip .gz .tgz
+AddEncoding x-bzip2 .bz2
 #
 # If the AddEncoding directives above are commented-out, then you
 # probably should define those extensions to indicate media types:
 #
-AddType application/x-compress .Z
-AddType application/x-gzip .gz .tgz
-AddType application/x-bzip2 .bz2
+# AddType application/x-compress .Z
+# AddType application/x-gzip .gz .tgz
+# AddType application/x-bzip2 .bz2
 
 #
 # DefaultLanguage and AddLanguage allows you to specify the language of 
