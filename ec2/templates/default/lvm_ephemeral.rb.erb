@@ -1,0 +1,40 @@
+#!/usr/bin/ruby
+
+
+memory = <%=@node[:memory][:total].to_i rescue 0 %>
+
+begin
+  # check that the devices we are trying to create a VG on are actually
+  # available
+  %w{<%=@ephemeral_devices.join(' ')%>}.each do |vol|
+    unless File.exist?(vol)
+      STDERR.puts "#{vol}: no such file or directory ..."
+      exit 0
+    else 
+      system("/bin/umount #{vol} || true")
+      system("/sbin/swapoff #{vol} || true")
+    end
+  end
+  ret = system("/usr/sbin/pvcreate <%=@ephemeral_devices.join(' ')%>")
+  raise "Cannot create physical volumes on <%=@ephemeral_devices.join(',')%> ! : #{$?}" unless ret
+
+  ret = system("/usr/sbin/vgcreate <%=@ephemeral_volume_group%> <%=@ephemeral_devices.join(' ')%>")
+  raise "Cannot create volume group '<%=@ephemeral_volume_group%>' on <%=@ephemeral_devices.join(',')%> ! : #{$?}" unless ret
+
+  ret = system("/usr/sbin/lvcreate -i <%=@ephemeral_devices.size%> -L #{memory}k -n swap <%=@ephemeral_volume_group%>")
+  raise "Cannot create swap lvol '<%=@ephemeral_volume_group%>/swap' ! : #{$?}" unless ret
+
+  ret = system("/sbin/mkswap /dev/<%=@ephemeral_volume_group%>/swap")
+  raise "Cannot mkswap '<%=@ephemeral_volume_group%>/swap' ! : #{$?}" unless ret
+
+  ret = system("/usr/sbin/lvcreate -i <%=@ephemeral_devices.size%> -l 80%FREE -n <%=@ephemeral_logical_volume%> <%=@ephemeral_volume_group%>")
+  raise "Cannot create space lvol '<%=@ephemeral_volume_group%>/<%=@ephemeral_logical_volume%>' ! : #{$?}" unless ret
+
+  ret = system("/sbin/mkfs.xfs /dev/<%=@ephemeral_volume_group%>/<%=@ephemeral_logical_volume%>")
+  raise "Cannot create file system on /dev/<%=@ephemeral_volume_group%>/<%=@ephemeral_logical_volume%>! : #{$?}" unless ret
+rescue
+  STDERR.puts $!
+  exit 1
+end
+
+exit 0

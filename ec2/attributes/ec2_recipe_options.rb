@@ -20,9 +20,16 @@
 set_unless[:ec2opts][:lvm][:use_ephemeral]  = true
 set_unless[:ec2opts][:lvm][:ephemeral_mountpoint] = "/mnt"
 set_unless[:ec2opts][:lvm][:ephemeral_volume_group] = "ephemeral"
-set_unless[:ec2opts][:lvm][:ephemeral_logical_volume] = "store"
+set_unless[:ec2opts][:lvm][:ephemeral_logical_volume] = "space"
+
 set_unless[:ec2opts][:lvm][:ephemeral_devices] = {
-  "m1.small"  => [ "/dev/sda2" ],
+#  "m1.small"  => [ "/dev/sda2" ],
   "m1.large"  => [ "/dev/sdb", "/dev/sdc" ],
   "m1.xlarge" => [ "/dev/sdb", "/dev/sdc", "/dev/sdd", "/dev/sde" ],
+  "c1.medium" => [ "/dev/sdb" ],
+  "c1.xlarge" => [ "/dev/sdb", "/dev/sdc", "/dev/sdd", "/dev/sde" ],
+  "m2.xlarge" => [ "/dev/sdb" ],
+  "m2.2xlarge" => [ "/dev/sdb" ],
+  "m2.4xlarge" => [ "/dev/sdb", "/dev/sdc" ],
+  "cc1.4xlarge" => [ "/dev/sdb", "/dev/sdc" ]
 }
