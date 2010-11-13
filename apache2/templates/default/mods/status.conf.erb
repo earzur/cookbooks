@@ -5,11 +5,17 @@
 # Uncomment and change the ".example.com" to allow
 # access from other hosts.
 #
+
+ExtendedStatus On
+
 <Location /server-status>
     SetHandler server-status
     Order deny,allow
     Deny from all
-    Allow from localhost ip6-localhost
+    Allow from localhost 
+<% if @params[:cacti_servers] -%>
+    Allow from <%=@params[:cacti_servers].join(" ")%>
+<% end -%> 
 #    Allow from .example.com
 </Location>
 

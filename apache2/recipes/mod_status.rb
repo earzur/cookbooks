@@ -19,4 +19,14 @@
 
 apache_module "status" do
   conf true
+  cacti_servers do
+    ## find every nodes with the 'cacti' tag and build a comma-separated
+    ## list of their ip addresses, used to restrict usage of the cacti
+    ## private key to those IP addresses
+    ## the [0..-2] is there to remove the last comma from the list
+    ## see man 8 sshd for informations about the authorized_keys file format
+    search(:node, "tags:cacti").inject('') do |val,n|
+      val << n.ipaddress + ","
+    end[0..-2]
+  end
 end
