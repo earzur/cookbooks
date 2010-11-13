@@ -13,4 +13,9 @@
           AddOutputFilterByType DEFLATE application/x-httpd-php
           AddOutputFilterByType DEFLATE application/x-httpd-fastphp
           AddOutputFilterByType DEFLATE application/x-httpd-eruby
+
+          BrowserMatch ^Mozilla/4 gzip-only-text/html
+          BrowserMatch ^Mozilla/4.0[678] no-gzip
+          BrowserMatch bMSIE !no-gzip !gzip-only-text/html
+          DeflateCompressionLevel 6
 </IfModule>
