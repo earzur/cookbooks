@@ -234,6 +234,9 @@ The application used in examples is named `my_app` and the environment is `produ
 Note about "type": the recipes listed in the "type" will be included in the run list via `include_recipe` in the application default recipe based on the type matching one of the `server_roles` values.
 
 Note about `databases`, the data specified will be rendered as JNDI Datasource `Resources` in the servlet container context confiruation (`context.xml`) file. In the `database` cookbook, this information is also used to set up privileges for the application user, and create the databases.
+=======
+Note about `databases`, the data specified will be rendered as JNDI Datasource `Resources` in the `context.xml` file. In the `database` cookbook, this information is also used to set up privileges for the application user, and create the databases.
+>>>>>>> COOK-418 added support for deploying java web applications with tomcat
 
 Note about packages, the version is optional. If specified, the version will be passed as a parameter to the resource. Otherwise it will use the latest available version per the default `:install` action for the package provider.
 
