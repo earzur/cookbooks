@@ -35,6 +35,13 @@ end
 case node["chef_client"]["init_style"]
 when "init"
 
+  directory node["chef_client"]["log_dir"] do
+    recursive true
+    owner "root"
+    group root_group
+    mode 0755
+  end
+
   dist_dir = value_for_platform(
     ["ubuntu", "debian"] => { "default" => "debian" },
     ["redhat", "centos", "fedora"] => { "default" => "redhat"}
@@ -113,6 +120,13 @@ when "runit"
   runit_service "chef-client"
 
 when "bluepill"
+
+  directory node["chef_client"]["log_dir"] do
+    recursive true
+    owner "root"
+    group root_group
+    mode 0755
+  end
 
   directory node["chef_client"]["run_path"] do
     recursive true
