@@ -20,6 +20,15 @@
     ],
     "fedora": [
 
+    ],
+    "freebsd": [
+
+    ],
+    "openbsd": [
+
+    ],
+    "mac_os_x": [
+
     ]
   },
   "dependencies": {
