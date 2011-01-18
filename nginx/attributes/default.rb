@@ -15,13 +15,6 @@ else
   set[:nginx][:binary]  = "/usr/sbin/nginx"
 end
 
-default[:nginx][:configure_flags] = [
-  "--prefix=#{nginx[:install_path]}",
-  "--conf-path=#{nginx[:dir]}/nginx.conf",
-  "--with-http_ssl_module",
-  "--with-http_gzip_static_module"
-]
-
 default[:nginx][:gzip] = "on"
 default[:nginx][:gzip_http_version] = "1.0"
 default[:nginx][:gzip_comp_level] = "2"
