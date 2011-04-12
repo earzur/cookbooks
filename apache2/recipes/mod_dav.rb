@@ -18,3 +18,4 @@
 #
 
 apache_module "dav"
+apache_module "dav_fs"

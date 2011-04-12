@@ -17,6 +17,22 @@
 # limitations under the License.
 #
 
-package "libapache2-svn"
+case node[:platform]
+when "centos","redhat","fedora","suse"
+  package "mod_dav_svn"
+  
+  file "/etc/httpd/conf.d/subversion.conf" do
+    action [:delete]
+  end
+  
+  cookbook_file "/etc/httpd/mods-available/dav_svn.load" do
+    source "dav_svn.load"
+    owner "root"
+    group "root"
+    mode "0644"
+  end
+else
+  package "libapache2-svn"
+end 
 
 apache_module "dav_svn"

@@ -38,5 +38,6 @@ template "#{node[:apache][:dir]}/ports.conf" do
 end
 
 apache_module "ssl" do
+  cookbook "apache2"
   conf true
 end
