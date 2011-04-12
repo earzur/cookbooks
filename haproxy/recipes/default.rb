@@ -21,7 +21,16 @@ package "haproxy" do
   action :install
 end
 
-template "/etc/default/haproxy" do
+case node[:platform]
+when "ubuntu","debian"
+  tmpl = "/etc/default/haproxy"
+when "centos","redhat"
+  tmpl = "/etc/sysconfig/haproxy"
+else
+  tmpl = "/etc/default/haproxy"
+end
+
+template tmpl do
   source "haproxy-default.erb"
   owner "root"
   group "root"
