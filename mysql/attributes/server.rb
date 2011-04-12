@@ -46,6 +46,7 @@ default[:mysql][:tunable][:thread_cache_size]    = 8
 default[:mysql][:tunable][:thread_concurrency]   = 10
 default[:mysql][:tunable][:thread_stack]         = "256K"
 default[:mysql][:tunable][:wait_timeout]         = "180"
+default[:mysql][:tunable][:ft_min_word_len]      = 4
 
 default[:mysql][:tunable][:query_cache_limit]    = "1M"
 default[:mysql][:tunable][:query_cache_size]     = "16M"
