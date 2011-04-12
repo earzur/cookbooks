@@ -23,7 +23,7 @@ set_unless[:ec2opts][:lvm][:ephemeral_volume_group] = "ephemeral"
 set_unless[:ec2opts][:lvm][:ephemeral_logical_volume] = "space"
 
 set_unless[:ec2opts][:lvm][:ephemeral_devices] = {
-#  "m1.small"  => [ "/dev/sda2" ],
+  "m1.small"  => [ "/dev/sda2" ],
   "m1.large"  => [ "/dev/sdb", "/dev/sdc" ],
   "m1.xlarge" => [ "/dev/sdb", "/dev/sdc", "/dev/sdd", "/dev/sde" ],
   "c1.medium" => [ "/dev/sdb" ],

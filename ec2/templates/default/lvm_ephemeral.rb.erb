@@ -15,19 +15,29 @@ begin
       system("/sbin/swapoff #{vol} || true")
     end
   end
-  ret = system("/usr/sbin/pvcreate <%=@ephemeral_devices.join(' ')%>")
+  
+<%
+  case @node[:platform]
+  when "ubuntu","debian"
+    prefix = "/sbin"
+  else
+    prefix = "/usr/sbin"
+  end
+-%>
+
+  ret = system("<%=prefix%>/pvcreate <%=@ephemeral_devices.join(' ')%>")
   raise "Cannot create physical volumes on <%=@ephemeral_devices.join(',')%> ! : #{$?}" unless ret
 
-  ret = system("/usr/sbin/vgcreate <%=@ephemeral_volume_group%> <%=@ephemeral_devices.join(' ')%>")
+  ret = system("<%=prefix%>/vgcreate <%=@ephemeral_volume_group%> <%=@ephemeral_devices.join(' ')%>")
   raise "Cannot create volume group '<%=@ephemeral_volume_group%>' on <%=@ephemeral_devices.join(',')%> ! : #{$?}" unless ret
 
-  ret = system("/usr/sbin/lvcreate -i <%=@ephemeral_devices.size%> -L #{memory}k -n swap <%=@ephemeral_volume_group%>")
+  ret = system("<%=prefix%>/lvcreate -i <%=@ephemeral_devices.size%> -L #{memory}k -n swap <%=@ephemeral_volume_group%>")
   raise "Cannot create swap lvol '<%=@ephemeral_volume_group%>/swap' ! : #{$?}" unless ret
 
   ret = system("/sbin/mkswap /dev/<%=@ephemeral_volume_group%>/swap")
   raise "Cannot mkswap '<%=@ephemeral_volume_group%>/swap' ! : #{$?}" unless ret
 
-  ret = system("/usr/sbin/lvcreate -i <%=@ephemeral_devices.size%> -l 80%FREE -n <%=@ephemeral_logical_volume%> <%=@ephemeral_volume_group%>")
+  ret = system("<%=prefix%>/lvcreate -i <%=@ephemeral_devices.size%> -l 80%FREE -n <%=@ephemeral_logical_volume%> <%=@ephemeral_volume_group%>")
   raise "Cannot create space lvol '<%=@ephemeral_volume_group%>/<%=@ephemeral_logical_volume%>' ! : #{$?}" unless ret
 
   ret = system("/sbin/mkfs.xfs /dev/<%=@ephemeral_volume_group%>/<%=@ephemeral_logical_volume%>")

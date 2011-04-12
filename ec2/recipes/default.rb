@@ -50,7 +50,8 @@ if node[:ec2]
         device "/dev/#{node[:ec2opts][:lvm][:ephemeral_volume_group]}/#{node[:ec2opts][:lvm][:ephemeral_logical_volume]}"
         fstype "xfs"
         options "rw"
-        action [:mount,:enable]
+        action [:enable,:mount]
+        not_if "mountpoint /mnt"
       end
     
       execute "swapon" do
