@@ -18,7 +18,7 @@
 #
 include_recipe "java::#{node["java"]["install_flavor"]}"
 
-current_java_version_pattern = (node.java.install_flavor == 'sun') ? /Java HotSpot\(TM\)/ : /^OpenJDK/
+current_java_version_pattern = (node.java.install_flavor == 'sun') ? /Java\(TM\) SE/ : /^OpenJDK/
 
 # force ohai to run and pick up new languages.java data
 ruby_block "reload_ohai" do
